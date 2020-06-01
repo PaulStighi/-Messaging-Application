@@ -5,6 +5,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 public class ServerWorker extends Thread {
     private final Server server;
@@ -12,6 +13,7 @@ public class ServerWorker extends Thread {
     private String connectedUser;
     private InputStream inputStream;
     private OutputStream outputStream;
+    private HashSet<String> groupSet = new HashSet<String>();
 
     public ServerWorker(Server server, Socket clientSocket) {
         this.server = server;
@@ -47,6 +49,12 @@ public class ServerWorker extends Thread {
                 else if(cmd.equalsIgnoreCase("msg")) {
                     handleMessage(tokens);
                 }
+                else if(cmd.equalsIgnoreCase("join")) {
+                    handleJoinGroup(tokens);
+                }
+                else if(cmd.equalsIgnoreCase("leave")) {
+                    handleLeaveGroup(tokens);
+                }
                 else {
                     outputStream.write((cmd + " is not a command\nTry >help for the list of commands\n").getBytes());
                 }
@@ -56,20 +64,45 @@ public class ServerWorker extends Thread {
         clientSocket.close();
     }
 
-    private void handleMessage(String[] tokens) throws IOException {
-        String sendTo = tokens[1];
-        if(tokens.length < 3) {
-            outputStream.write(("Sending message failed\n").getBytes());
+    private void handleLeaveGroup(String[] tokens) {
+        if(tokens.length > 1) {
+            String groupName = tokens[1];
+            groupSet.remove(groupName);
         }
-        else {
-            String body = tokens[2];
+    }
 
+    private void handleJoinGroup(String[] tokens) {
+        if(tokens.length > 1) {
+            String groupName = tokens[1];
+            groupSet.add(groupName);
+        }
+    }
+
+    private void handleMessage(String[] tokens) throws IOException {
+        if(tokens.length > 2) {
+            String sendTo = tokens[1];
+
+            String body = tokens[2];
             ArrayList<ServerWorker> workersList = server.getWorkers();
-            for (ServerWorker sw : workersList) {
-                if (sendTo.equalsIgnoreCase(sw.getConnectedUser())) {
-                    sw.send(connectedUser + ": " + body + "\n");
+            if(sendTo.charAt(0) == '#') {
+
+                for (ServerWorker sw : workersList) {
+                    if (groupSet.contains(sendTo)) {
+                        sw.send(connectedUser + " in " + sendTo + ": " + body + "\n");
+                    }
                 }
             }
+            else {
+
+                for (ServerWorker sw : workersList) {
+                    if (sendTo.equalsIgnoreCase(sw.getConnectedUser())) {
+                        sw.send(connectedUser + ": " + body + "\n");
+                    }
+                }
+            }
+        }
+        else {
+            outputStream.write(("Sending message failed\n").getBytes());
         }
     }
 
