@@ -109,6 +109,29 @@ public class ChatClient {
 	        return false;
 	    }
 	   
+	   private void handleMessage(String[] tokensMsg) {
+	        String login = tokensMsg[1];
+	        String msgBody = tokensMsg[2];
+
+	        for(MessageListener listener : messageListeners) {
+	            listener.onMessage(login, msgBody);
+	        }
+	    }
+
+	    private void handleOffline(String[] tokens) {
+	        String login = tokens[1];
+	        for(UserStatusListener listener : userStatusListeners) {
+	            listener.offline(login);
+	        }
+	    }
+
+	    private void handleOnline(String[] tokens) {
+	        String login = tokens[1];
+	        for(UserStatusListener listener : userStatusListeners) {
+	            listener.online(login);
+	        }
+	    }
+	   
 	   public void addUserStatusListener(UserStatusListener listener) {
 	        userStatusListeners.add(listener);
 	    }
