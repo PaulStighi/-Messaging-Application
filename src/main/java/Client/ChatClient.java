@@ -62,6 +62,36 @@ public class ChatClient {
 	        t.start();
 	    }
 	   
+	   private void readMessageLoop() {
+	        try {
+	            String line;
+	            while ((line = bufferedIn.readLine()) != null) {
+	                String[] tokens = StringUtils.split(line);
+	                if (tokens != null && tokens.length > 0) {
+	                    String cmd = tokens[0];
+	                    if ("online".equalsIgnoreCase(cmd)) {
+	                        handleOnline(tokens);
+	                    } else if ("offline".equalsIgnoreCase(cmd)) {
+	                        handleOffline(tokens);
+	                    } else if ("msg".equalsIgnoreCase(cmd)) {
+	                        String[] tokensMsg = StringUtils.split(line, null, 3);
+	                        handleMessage(tokensMsg);
+	                    }
+	                }
+	            }
+	        } catch (Exception ex) {
+	            ex.printStackTrace();
+	            try {
+	                socket.close();
+	            } catch (IOException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    }
+	   public void logoff() throws IOException {
+	        String cmd = "logoff\n";
+	        serverOut.write(cmd.getBytes());
+	    }
 	   
 	   
 	   
