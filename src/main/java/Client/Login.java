@@ -102,11 +102,7 @@ public class Login {
 		frame.getContentPane().add(lblMessage);
 	
 	}
-	/*
-public void  SetUsernameAndPassword() {
-		
-		
-	}*/
+
 private void doLogin() {
 		
 		this.Username=textField.getText();
