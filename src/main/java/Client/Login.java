@@ -96,22 +96,10 @@ public class Login {
 				doLogin();
 			}
 		});
-		/*
-		textField_2 = new JTextField();
-		textField_2.setBounds(283, 193, 116, 22);
-		frame.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
-		*/
+		
 		JLabel lblMessage = new JLabel("Message");
 		lblMessage.setBounds(311, 174, 56, 16);
 		frame.getContentPane().add(lblMessage);
-		
-		btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                doLogin();
-            }
-        });
 	
 	}
 	/*
