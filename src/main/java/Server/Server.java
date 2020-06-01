@@ -7,10 +7,12 @@ import java.util.ArrayList;
 
 public class Server extends Thread {
     private final int serverPort;
+    private final UserDatabase database;
     private ArrayList<ServerWorker> workers = new ArrayList<ServerWorker>();
 
     public Server (int serverPort) {
         this.serverPort = serverPort;
+        this.database = new UserDatabase("data/users.xml");
     }
 
     public ArrayList<ServerWorker> getWorkers() {
@@ -36,5 +38,9 @@ public class Server extends Thread {
 
     public void removeWorker(ServerWorker serverWorker) {
         workers.remove(serverWorker);
+    }
+
+    public UserDatabase getDatabase() {
+        return database;
     }
 }

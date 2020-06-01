@@ -13,7 +13,7 @@ public class ServerWorker extends Thread {
     private String connectedUser;
     private InputStream inputStream;
     private OutputStream outputStream;
-    private HashSet<String> groupSet = new HashSet<String>();
+    private HashSet<String> groupSet = new HashSet<>();
 
     public ServerWorker(Server server, Socket clientSocket) {
         this.server = server;
@@ -43,6 +43,9 @@ public class ServerWorker extends Thread {
                     handleLogout();
                     break;
                 }
+                else if(cmd.equalsIgnoreCase("signup")) {
+                    handleSignUp(tokens);
+                }
                 else if(cmd.equalsIgnoreCase("login")) {
                     handleLogin(outputStream, tokens);
                 }
@@ -55,6 +58,15 @@ public class ServerWorker extends Thread {
                 else if(cmd.equalsIgnoreCase("leave")) {
                     handleLeaveGroup(tokens);
                 }
+                else if(cmd.equalsIgnoreCase("help")) {
+                    outputStream.write(("The accepted commands are:\n" +
+                                        "login <username> <password>\n" +
+                                        "msg <username> <message_body>\n" +
+                                        "join <group_name>\n" +
+                                        "leabe <group_name\n" +
+                                        "help\n"
+                                        ).getBytes());
+                }
                 else {
                     outputStream.write((cmd + " is not a command\nTry >help for the list of commands\n").getBytes());
                 }
@@ -64,17 +76,33 @@ public class ServerWorker extends Thread {
         clientSocket.close();
     }
 
-    private void handleLeaveGroup(String[] tokens) {
+    private void handleSignUp(String[] tokens) throws IOException {
+        if(tokens.length > 2) {
+            UserDatabase database = server.getDatabase();
+            database.addEntry(tokens[1], tokens[2]);
+        }
+        else {
+            outputStream.write(("SignUp failed\n").getBytes());
+        }
+    }
+
+    private void handleLeaveGroup(String[] tokens) throws IOException {
         if(tokens.length > 1) {
             String groupName = tokens[1];
             groupSet.remove(groupName);
         }
+        else {
+            outputStream.write(("Leave group failed\n").getBytes());
+        }
     }
 
-    private void handleJoinGroup(String[] tokens) {
+    private void handleJoinGroup(String[] tokens) throws IOException {
         if(tokens.length > 1) {
             String groupName = tokens[1];
             groupSet.add(groupName);
+        }
+        else {
+            outputStream.write(("Join group failed\n").getBytes());
         }
     }
 
@@ -109,7 +137,7 @@ public class ServerWorker extends Thread {
     private void handleLogout() throws IOException {
         ArrayList<ServerWorker> workersList = server.getWorkers();
         for(ServerWorker sw : workersList) {
-            if(!sw.getConnectedUser().equals(connectedUser) && (sw.getConnectedUser() != null)) {
+            if((sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
                 sw.send(connectedUser + " is offline\n");
             }
         }
