@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
+import javax.swing.*;
 
 public class Login {
 
@@ -78,10 +79,13 @@ public class Login {
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
-		textField_1 = new JTextField();
+		textField_1 = new JPasswordField();
 		textField_1.setBounds(183, 139, 116, 22);
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
+		
+		
+		
 		
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(117, 192, 97, 25);
