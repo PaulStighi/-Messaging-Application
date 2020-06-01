@@ -153,8 +153,8 @@ private void doLogin() {
            // setVisible(false);
         } else {
             // show error message
-            
-        	//text=new textField_2("invalid username or password");
+            	
+       
         	JTextArea textArea = new JTextArea("invalid username or password");
     		textArea.setBounds(258, 193, 162, 22);
     		frame.getContentPane().add(textArea);
@@ -166,48 +166,7 @@ private void doLogin() {
     }
 }
 
-/*
-private void StoreUsername() {
-	String[]Users={"usr_1","usr_2","usr_3"};
-	
-	String[]Passwords= { "pass_1","pass_2","pass_3" }; 
-	
-	for(int i=0;i<Users.length;i++) {
-		if(Users[i]==this.Username) {
-		//	return Users[i];
-			 ok=1;
-		}
-		else
-		{
-		   k=1;
-		}
-	}
-	if(k==1) {
-		
-	}
-		
-		for(int j=0;j<Passwords.length;j++) {
-			if(Passwords[j]==this.Password) {
-			//	return Passwords[j];
-				 ok2=1;
-				
-			}
-			else
-			{
-				k2=1;
-			}
-			
-		}
-		if(k2==1) {
-		System.out.println("incorrect password");
-		}
-		
-		if(ok == 1 && ok2 == 1) {
-			System.out.println("Login OK!");
-		}
-}*/
 
-	
 	
 	
 	
