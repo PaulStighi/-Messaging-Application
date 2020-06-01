@@ -80,8 +80,8 @@ public class ServerWorker extends Thread {
     }
 
     private void handleSignUp(String[] tokens) throws IOException {
-        if(tokens.length > 2) {
-            UserDatabase database = server.getDatabase();
+        UserDatabase database = server.getDatabase();
+        if(tokens.length > 2 && !database.userExists(tokens[1])) {
             database.addEntry(tokens[1], tokens[2]);
         }
         else {
