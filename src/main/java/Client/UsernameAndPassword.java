@@ -1,3 +1,4 @@
+package Client;
 
 public class UsernameAndPassword {
      
@@ -43,7 +44,7 @@ public class UsernameAndPassword {
 			}
 			
 			if(ok == 1 && ok2 == 1) {
-				System.out.println("Login OK!");
+				System.out.println("Client.Login OK!");
 			}
 	}
 }
