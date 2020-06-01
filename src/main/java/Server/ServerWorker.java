@@ -141,7 +141,7 @@ public class ServerWorker extends Thread {
         ArrayList<ServerWorker> workersList = server.getWorkers();
         for(ServerWorker sw : workersList) {
             if((sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
-                sw.send(connectedUser + " is offline\n");
+                sw.send("offline" + connectedUser + "\n");
             }
         }
         server.removeWorker(this);
@@ -171,7 +171,7 @@ public class ServerWorker extends Thread {
     }
 
     private void atConnection(String username, ArrayList<ServerWorker> workersList) throws IOException {
-        outputStream.write(("Logged in as " + username + "\n").getBytes());
+        outputStream.write(("online " + username + "\n").getBytes());
         this.connectedUser = username;
         for(ServerWorker sw : workersList) {
             if( (sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {

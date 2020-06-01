@@ -47,7 +47,7 @@ public class ChatClient {
 	        String response = bufferedIn.readLine();
 	        System.out.println("Response Line:" + response);
 
-	        if ("ok login".equalsIgnoreCase(response)) {
+	        if (response.equalsIgnoreCase("online " + Username)) {
 	            startMessageReader();
 	            return true;
 	        } else {
@@ -71,11 +71,11 @@ public class ChatClient {
 	                String[] tokens = StringUtils.split(line);
 	                if (tokens != null && tokens.length > 0) {
 	                    String cmd = tokens[0];
-	                    if ("online".equalsIgnoreCase(cmd)) {
+	                    if (cmd.equalsIgnoreCase("online")) {
 	                        handleOnline(tokens);
-	                    } else if ("offline".equalsIgnoreCase(cmd)) {
+	                    } else if (cmd.equalsIgnoreCase("offline")) {
 	                        handleOffline(tokens);
-	                    } else if ("msg".equalsIgnoreCase(cmd)) {
+	                    } else if (cmd.equalsIgnoreCase("msg")) {
 	                        String[] tokensMsg = StringUtils.split(line, null, 3);
 	                        handleMessage(tokensMsg);
 	                    }

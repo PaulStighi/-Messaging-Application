@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.*;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -93,10 +94,10 @@ public class Login {
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				doLogin();
+				doLogin(frame);
 			}
 		});
-		
+
 		JLabel lblMessage = new JLabel("Message");
 		lblMessage.setBounds(311, 174, 56, 16);
 		frame.getContentPane().add(lblMessage);
@@ -107,23 +108,22 @@ public void  SetUsernameAndPassword() {
 		
 		
 	}*/
-private void doLogin() {
+private void doLogin(JFrame loginFrame) {
 		
 		this.Username=textField.getText();
 		this.Password=textField_1.getText();
 
 	try {
         if (client.login(Username, Password)) {
-            // bring up the user list window
-            UserListPane userListPane = new UserListPane(client);
-            JFrame frame = new JFrame("User List");
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(400, 600);
+			UserListPane userListPane = new UserListPane(client);
+			JFrame frame = new JFrame("User List");
+			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+			frame.setSize(400, 600);
 
-            frame.getContentPane().add(userListPane, BorderLayout.CENTER);
-            frame.setVisible(true);
+			frame.getContentPane().add(userListPane, BorderLayout.CENTER);
+			frame.setVisible(true);
 
-           // setVisible(false);
+			loginFrame.setVisible(false);
         } else {
             // show error message
             	
