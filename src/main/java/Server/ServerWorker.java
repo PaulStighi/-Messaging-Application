@@ -60,10 +60,13 @@ public class ServerWorker extends Thread {
                 }
                 else if(cmd.equalsIgnoreCase("help")) {
                     outputStream.write(("The accepted commands are:\n" +
+                                        "signup <username> <password>\n" +
                                         "login <username> <password>\n" +
+                                        "logout\n" +
                                         "msg <username> <message_body>\n" +
                                         "join <group_name>\n" +
-                                        "leabe <group_name\n" +
+                                        "leave <group_name>\n" +
+                                        "exit\n" +
                                         "help\n"
                                         ).getBytes());
                 }
@@ -150,27 +153,29 @@ public class ServerWorker extends Thread {
             String username = tokens[1];
             String password = tokens[2];
             ArrayList<ServerWorker> workersList = server.getWorkers();
+            UserDatabase database = server.getDatabase();
 
             if(username.equals("admin") && password.equals("admin")) {
-                outputStream.write(("Logged in as " + username + "\n").getBytes());
-                this.connectedUser = username;
-                for(ServerWorker sw : workersList) {
-                    if((sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
-                        sw.send(connectedUser + " is online\n");
-                    }
-                }
+                atConnection(username, workersList);
             }
             else if(username.equals("guest") && password.equals("guest")) {
-                outputStream.write(("Logged in as " + username + "\n").getBytes());
-                this.connectedUser = username;
-                for(ServerWorker sw : workersList) {
-                    if( (sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
-                        sw.send(connectedUser + " is online\n");
-                    }
-                }
+                atConnection(username, workersList);
+            }
+            else if(database.checkLogin(username, password)) {
+                atConnection(username, workersList);
             }
             else {
                 outputStream.write(("Login failed\n").getBytes());
+            }
+        }
+    }
+
+    private void atConnection(String username, ArrayList<ServerWorker> workersList) throws IOException {
+        outputStream.write(("Logged in as " + username + "\n").getBytes());
+        this.connectedUser = username;
+        for(ServerWorker sw : workersList) {
+            if( (sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
+                sw.send(connectedUser + " is online\n");
             }
         }
     }
