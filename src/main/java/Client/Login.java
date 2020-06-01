@@ -5,14 +5,10 @@ import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
-<<<<<<< HEAD
-
-=======
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
->>>>>>> 9d1f3786d7cc3fa3031a694f728971021bc6faa7
 import javax.swing.*;
 
 public class Login {
@@ -59,11 +55,6 @@ public class Login {
 		this.client = new ChatClient("localhost", 1400);
 		client.connect();
 		initialize();
-<<<<<<< HEAD
-		
-	
-=======
->>>>>>> 9d1f3786d7cc3fa3031a694f728971021bc6faa7
 	}
 
 	/**
@@ -99,11 +90,6 @@ public class Login {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(117, 192, 97, 25);
 		frame.getContentPane().add(btnLogin);
-<<<<<<< HEAD
-		
-		
-		
-=======
 		btnLogin.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -116,7 +102,6 @@ public class Login {
 		frame.getContentPane().add(textField_2);
 		textField_2.setColumns(10);
 		*/
->>>>>>> 9d1f3786d7cc3fa3031a694f728971021bc6faa7
 		JLabel lblMessage = new JLabel("Message");
 		lblMessage.setBounds(311, 174, 56, 16);
 		frame.getContentPane().add(lblMessage);
