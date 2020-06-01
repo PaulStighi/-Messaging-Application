@@ -1,3 +1,5 @@
+package Client;
+
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -62,7 +64,7 @@ public class Login {
 		frame.getContentPane().add(textField_1);
 		textField_1.setColumns(10);
 		
-		JButton btnLogin = new JButton("Login");
+		JButton btnLogin = new JButton("Client.Login");
 		btnLogin.setBounds(117, 192, 97, 25);
 		frame.getContentPane().add(btnLogin);
 		
