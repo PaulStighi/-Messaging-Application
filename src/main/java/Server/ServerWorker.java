@@ -37,7 +37,8 @@ public class ServerWorker extends Thread {
             String[] tokens = StringUtils.split(buff);
             if(tokens != null && tokens.length > 0) {
                 String cmd = tokens[0];
-                if(cmd.equalsIgnoreCase("exit")) {
+                if(cmd.equalsIgnoreCase("exit") || cmd.equalsIgnoreCase("logout")) {
+                    handleLogout();
                     break;
                 }
                 else if(cmd.equalsIgnoreCase("login")) {
@@ -52,6 +53,16 @@ public class ServerWorker extends Thread {
         clientSocket.close();
     }
 
+    private void handleLogout() throws IOException {
+        ArrayList<ServerWorker> workersList = server.getWorkers();
+        for(ServerWorker sw : workersList) {
+            if(!sw.getConnectedUser().equals(connectedUser) && (sw.getConnectedUser() != null)) {
+                sw.send(connectedUser + " is offline\n");
+            }
+        }
+        clientSocket.close();
+    }
+
     private void handleLogin(OutputStream outputStream, String[] tokens) throws IOException {
         if(tokens.length == 3) {
             String username = tokens[1];
@@ -62,8 +73,8 @@ public class ServerWorker extends Thread {
                 outputStream.write(("Logged in as " + username + "\n").getBytes());
                 this.connectedUser = username;
                 for(ServerWorker sw : workersList) {
-                    if(!sw.equals(this)) {
-                        sw.send(username + " is online\n");
+                    if(!sw.getConnectedUser().equals(connectedUser) && (sw.getConnectedUser() != null)) {
+                        sw.send(connectedUser + " is online\n");
                     }
                 }
             }
@@ -71,8 +82,8 @@ public class ServerWorker extends Thread {
                 outputStream.write(("Logged in as " + username + "\n").getBytes());
                 this.connectedUser = username;
                 for(ServerWorker sw : workersList) {
-                    if(!sw.equals(this)) {
-                        sw.send(username + " is online\n");
+                    if(!sw.getConnectedUser().equals(connectedUser) && (sw.getConnectedUser() != null)) {
+                        sw.send(connectedUser + " is online\n");
                     }
                 }
             }
@@ -83,7 +94,9 @@ public class ServerWorker extends Thread {
     }
 
     private void send(String message) throws IOException {
-        outputStream.write(message.getBytes());
+        if(connectedUser != null) {
+            outputStream.write(message.getBytes());
+        }
     }
 
     public String getConnectedUser() {
