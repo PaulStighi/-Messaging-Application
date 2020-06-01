@@ -39,7 +39,7 @@ public class ChatClient {
 	    }
 	
 	 public boolean login(String Username, String Password) throws IOException {
-	        String cmd = "login " + Username + " " + Password + "\n";
+	        String cmd = "Usename " + Username + " " + Password + "\n";
 	        serverOut.write(cmd.getBytes());
 
 	        String response = bufferedIn.readLine();
@@ -110,25 +110,25 @@ public class ChatClient {
 	    }
 	   
 	   private void handleMessage(String[] tokensMsg) {
-	        String login = tokensMsg[1];
+	        String Username = tokensMsg[1];
 	        String msgBody = tokensMsg[2];
 
 	        for(MessageListener listener : messageListeners) {
-	            listener.onMessage(login, msgBody);
+	            listener.onMessage(Username, msgBody);
 	        }
 	    }
 
 	    private void handleOffline(String[] tokens) {
-	        String login = tokens[1];
+	        String Username = tokens[1];
 	        for(UserStatusListener listener : userStatusListeners) {
-	            listener.offline(login);
+	            listener.offline(Username);
 	        }
 	    }
 
 	    private void handleOnline(String[] tokens) {
-	        String login = tokens[1];
+	        String Username = tokens[1];
 	        for(UserStatusListener listener : userStatusListeners) {
-	            listener.online(login);
+	            listener.online(Username);
 	        }
 	    }
 	   
