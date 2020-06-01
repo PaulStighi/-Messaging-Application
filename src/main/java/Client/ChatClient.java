@@ -1,5 +1,7 @@
 package Client;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,7 +41,7 @@ public class ChatClient {
 	    }
 	
 	 public boolean login(String Username, String Password) throws IOException {
-	        String cmd = "Usename " + Username + " " + Password + "\n";
+	        String cmd = "login " + Username + " " + Password + "\n";
 	        serverOut.write(cmd.getBytes());
 
 	        String response = bufferedIn.readLine();

@@ -1,10 +1,12 @@
+package Client;
+
 import java.awt.BorderLayout;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
-
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
@@ -49,8 +51,9 @@ public class Login {
 	 * Create the application.
 	 */
 	public Login() {
+		this.client = new ChatClient("localhost", 1400);
+		client.connect();
 		initialize();
-		
 	}
 
 	/**
@@ -83,6 +86,12 @@ public class Login {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(117, 192, 97, 25);
 		frame.getContentPane().add(btnLogin);
+		btnLogin.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				doLogin();
+			}
+		});
 		/*
 		textField_2 = new JTextField();
 		textField_2.setBounds(283, 193, 116, 22);
