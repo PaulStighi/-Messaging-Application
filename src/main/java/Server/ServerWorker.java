@@ -4,12 +4,17 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class ServerWorker extends Thread {
+    private final Server server;
     private final Socket clientSocket;
     private String connectedUser;
+    private InputStream inputStream;
+    private OutputStream outputStream;
 
-    public ServerWorker(Socket clientSocket) {
+    public ServerWorker(Server server, Socket clientSocket) {
+        this.server = server;
         this.clientSocket = clientSocket;
     }
 
@@ -23,8 +28,8 @@ public class ServerWorker extends Thread {
     }
 
     private void handleClientSocket() throws IOException {
-        InputStream inputStream = clientSocket.getInputStream();
-        OutputStream outputStream = clientSocket.getOutputStream();
+        this.inputStream = clientSocket.getInputStream();
+        this.outputStream = clientSocket.getOutputStream();
 
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         String buff;
@@ -39,7 +44,7 @@ public class ServerWorker extends Thread {
                     handleLogin(outputStream, tokens);
                 }
                 else {
-                    outputStream.write((cmd + " is not a command\nTry >help for the list of commands").getBytes());
+                    outputStream.write((cmd + " is not a command\nTry >help for the list of commands\n").getBytes());
                 }
             }
         }
@@ -51,18 +56,37 @@ public class ServerWorker extends Thread {
         if(tokens.length == 3) {
             String username = tokens[1];
             String password = tokens[2];
+            ArrayList<ServerWorker> workersList = server.getWorkers();
 
             if(username.equals("admin") && password.equals("admin")) {
                 outputStream.write(("Logged in as " + username + "\n").getBytes());
                 this.connectedUser = username;
+                for(ServerWorker sw : workersList) {
+                    if(!sw.equals(this)) {
+                        sw.send(username + " is online\n");
+                    }
+                }
             }
             else if(username.equals("guest") && password.equals("guest")) {
                 outputStream.write(("Logged in as " + username + "\n").getBytes());
                 this.connectedUser = username;
+                for(ServerWorker sw : workersList) {
+                    if(!sw.equals(this)) {
+                        sw.send(username + " is online\n");
+                    }
+                }
             }
             else {
                 outputStream.write(("Login failed\n").getBytes());
             }
         }
+    }
+
+    private void send(String message) throws IOException {
+        outputStream.write(message.getBytes());
+    }
+
+    public String getConnectedUser() {
+        return connectedUser;
     }
 }
