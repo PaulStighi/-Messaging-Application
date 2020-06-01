@@ -4,11 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.JButton;
 import javax.swing.*;
 
 public class Login {
@@ -53,12 +48,8 @@ public class Login {
 	 */
 	public Login() {
 		initialize();
-		btnLogin.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                doLogin();
-            }
-        });
+		
+	
 	}
 
 	/**
@@ -94,16 +85,19 @@ public class Login {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(117, 192, 97, 25);
 		frame.getContentPane().add(btnLogin);
-		/*
-		textField_2 = new JTextField();
-		textField_2.setBounds(283, 193, 116, 22);
-		frame.getContentPane().add(textField_2);
-		textField_2.setColumns(10);
-		*/
+		
+		
+		
 		JLabel lblMessage = new JLabel("Message");
 		lblMessage.setBounds(311, 174, 56, 16);
 		frame.getContentPane().add(lblMessage);
 		
+		btnLogin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                doLogin();
+            }
+        });
 	
 	}
 	/*
@@ -132,11 +126,10 @@ private void doLogin() {
             // show error message
             
         	//text=new textField_2("invalid username or password");
-        	
-        	textField_2 = new JTextField();
-    		textField_2.setBounds(283, 193, 116, 22);
-    		frame.getContentPane().add(textField_2);
-    		textField_2.setColumns(10);
+        	JTextArea textArea = new JTextArea("invalid username or password");
+    		textArea.setBounds(258, 193, 162, 22);
+    		frame.getContentPane().add(textArea);
+        
         	//JOptionPane.showMessageDialog(this, "Invalid Username/password.");
         }
     } catch (IOException e) {
