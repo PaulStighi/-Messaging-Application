@@ -26,6 +26,8 @@ public class Login {
 	public int k=0;
 	
 	public int k2=0;
+	
+	private final ChatClient client;
 
 	/**
 	 * Launch the application.
@@ -48,6 +50,7 @@ public class Login {
 	 */
 	public Login() {
 		initialize();
+		
 	}
 
 	/**
@@ -80,26 +83,30 @@ public class Login {
 		JButton btnLogin = new JButton("Login");
 		btnLogin.setBounds(117, 192, 97, 25);
 		frame.getContentPane().add(btnLogin);
-		
+		/*
 		textField_2 = new JTextField();
 		textField_2.setBounds(283, 193, 116, 22);
 		frame.getContentPane().add(textField_2);
 		textField_2.setColumns(10);
-		
+		*/
 		JLabel lblMessage = new JLabel("Message");
 		lblMessage.setBounds(311, 174, 56, 16);
 		frame.getContentPane().add(lblMessage);
-	}
+		
 	
+	}
+	/*
 public void  SetUsernameAndPassword() {
+		
+		
+	}*/
+private void doLogin() {
 		
 		this.Username=textField.getText();
 		this.Password=textField_1.getText();
-	}
-private void doLogin() {
- 
-    try {
-        if (client.login(login, password)) {
+
+	try {
+        if (client.login(Username, Password)) {
             // bring up the user list window
             UserListPane userListPane = new UserListPane(client);
             JFrame frame = new JFrame("User List");
@@ -109,10 +116,17 @@ private void doLogin() {
             frame.getContentPane().add(userListPane, BorderLayout.CENTER);
             frame.setVisible(true);
 
-            setVisible(false);
+           // setVisible(false);
         } else {
             // show error message
-            JOptionPane.showMessageDialog(this, "Invalid login/password.");
+            
+        	//text=new textField_2("invalid username or password");
+        	
+        	textField_2 = new JTextField();
+    		textField_2.setBounds(283, 193, 116, 22);
+    		frame.getContentPane().add(textField_2);
+    		textField_2.setColumns(10);
+        	//JOptionPane.showMessageDialog(this, "Invalid Username/password.");
         }
     } catch (IOException e) {
         e.printStackTrace();
