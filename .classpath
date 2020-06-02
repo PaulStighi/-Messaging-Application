@@ -2,5 +2,10 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="lib" path="commons-lang3-3.10-javadoc.jar"/>
+	<classpathentry kind="lib" path="commons-lang3-3.10-sources.jar"/>
+	<classpathentry kind="lib" path="commons-lang3-3.10-test-sources.jar"/>
+	<classpathentry kind="lib" path="commons-lang3-3.10-tests.jar"/>
+	<classpathentry kind="lib" path="commons-lang3-3.10.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

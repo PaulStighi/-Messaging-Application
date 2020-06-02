@@ -30,17 +30,17 @@ public class ChatClient {
 
     private ArrayList<MessageListener> messageListeners = new ArrayList<>();
 
-
+    //constructor
     public ChatClient(String serverName, int serverPort) {
         this.serverName = serverName;
         this.serverPort = serverPort;
     }
-
+    //the form of the message
     public void msg(String sendTo, String msgBody) throws IOException {
         String cmd = "msg " + sendTo + " " + msgBody + "\n";
         serverOut.write(cmd.getBytes());
     }
-
+    //login 
     public boolean login(String login, String password) throws IOException {
         String cmd = "login " + login + " " + password + "\n";
         serverOut.write(cmd.getBytes());
@@ -56,7 +56,7 @@ public class ChatClient {
         }
     }
 
-
+    //starts the readmessageloop
     private void startMessageReader() {
         Thread t = new Thread() {
             @Override
@@ -66,7 +66,7 @@ public class ChatClient {
         };
         t.start();
     }
-
+    // read the message for the online, offline
     private void readMessageLoop() {
         try {
             String line;
@@ -94,13 +94,13 @@ public class ChatClient {
             }
         }
     }
-
+    //logout the client
     public void logout() throws IOException {
         String cmd = "logout\n";
         serverOut.write(cmd.getBytes());
     }
 
-
+    //connect the client with the server
     public boolean connect() {
         try {
             this.socket = new Socket(serverName, serverPort);
@@ -114,7 +114,7 @@ public class ChatClient {
         }
         return false;
     }
-
+    // take over the message and the username
     private void handleMessage(String[] tokensMsg) {
         String username = tokensMsg[1];
         String msgBody = tokensMsg[2];
@@ -123,7 +123,7 @@ public class ChatClient {
             listener.onMessage(username, msgBody);
         }
     }
-
+    
     private void handleOffline(String[] tokens) {
         String username = tokens[1];
         for(UserStatusListener listener : userStatusListeners) {
