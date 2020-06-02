@@ -20,7 +20,7 @@ dependencies {
 
 jar {
     manifest {
-        attributes "Main-Class": "Main"
+        attributes "Main-Class": "Client.Login"
     }
 
     archiveName = 'Messaging Application.jar'
