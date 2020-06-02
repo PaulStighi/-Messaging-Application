@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -24,7 +25,7 @@ public class ServerWorker extends Thread {
     public void run() {
         try {
             handleClientSocket();
-        } catch (IOException e) {
+        } catch (IOException e ) {
             e.printStackTrace();
         }
     }
@@ -116,18 +117,16 @@ public class ServerWorker extends Thread {
             String body = tokens[2];
             ArrayList<ServerWorker> workersList = server.getWorkers();
             if(sendTo.charAt(0) == '#') {
-
                 for (ServerWorker sw : workersList) {
                     if (groupSet.contains(sendTo)) {
-                        sw.send(connectedUser + " in " + sendTo + ": " + body + "\n");
+                        sw.send("msg " + connectedUser + " in " + sendTo + ": " + body + "\n");
                     }
                 }
             }
             else {
-
                 for (ServerWorker sw : workersList) {
                     if (sendTo.equalsIgnoreCase(sw.getConnectedUser())) {
-                        sw.send(connectedUser + ": " + body + "\n");
+                        sw.send("msg " + connectedUser + ": " + body + "\n");
                     }
                 }
             }
@@ -141,7 +140,7 @@ public class ServerWorker extends Thread {
         ArrayList<ServerWorker> workersList = server.getWorkers();
         for(ServerWorker sw : workersList) {
             if((sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
-                sw.send("offline" + connectedUser + "\n");
+                sw.send("offline " + connectedUser + "\n");
             }
         }
         server.removeWorker(this);
@@ -175,7 +174,7 @@ public class ServerWorker extends Thread {
         this.connectedUser = username;
         for(ServerWorker sw : workersList) {
             if( (sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
-                sw.send(connectedUser + " is online\n");
+                sw.send("online " + connectedUser + "\n");
             }
         }
     }
