@@ -18,7 +18,16 @@ public class ChatClient {
     private OutputStream serverOut;
     private BufferedReader bufferedIn;
 
+    public ArrayList<UserStatusListener> getUserStatusListeners() {
+        return userStatusListeners;
+    }
+
     private ArrayList<UserStatusListener> userStatusListeners = new ArrayList<>();
+
+    public ArrayList<MessageListener> getMessageListeners() {
+        return messageListeners;
+    }
+
     private ArrayList<MessageListener> messageListeners = new ArrayList<>();
 
 

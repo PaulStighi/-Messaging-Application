@@ -30,7 +30,7 @@ public class ServerWorker extends Thread {
         }
     }
 
-    private void handleClientSocket() throws IOException {
+    public void handleClientSocket() throws IOException {
         this.inputStream = clientSocket.getInputStream();
         this.outputStream = clientSocket.getOutputStream();
 
