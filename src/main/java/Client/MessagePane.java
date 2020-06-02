@@ -9,15 +9,15 @@ import java.io.IOException;
 public class MessagePane extends JPanel implements MessageListener {
 
     private final ChatClient client;
-    private final String login;
+    private final String username;
 
     private DefaultListModel<String> listModel = new DefaultListModel<>();
     private JList<String> messageList = new JList<>(listModel);
     private JTextField inputField = new JTextField();
 
-    public MessagePane(ChatClient client, String login) {
+    public MessagePane(ChatClient client, String username) {
         this.client = client;
-        this.login = login;
+        this.username = username;
 
         client.addMessageListener(this);
 
@@ -30,7 +30,7 @@ public class MessagePane extends JPanel implements MessageListener {
             public void actionPerformed(ActionEvent e) {
                 try {
                     String text = inputField.getText();
-                    client.msg(login, text);
+                    client.msg(username, text);
                     listModel.addElement("You: " + text);
                     inputField.setText("");
                 } catch (IOException e1) {
@@ -42,7 +42,7 @@ public class MessagePane extends JPanel implements MessageListener {
 
     @Override
     public void onMessage(String fromLogin, String msgBody) {
-        if (login.equalsIgnoreCase(fromLogin)) {
+        if (username.equalsIgnoreCase(fromLogin)) {
             String line = fromLogin + ": " + msgBody;
             listModel.addElement(line);
         }
