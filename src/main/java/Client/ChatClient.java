@@ -18,8 +18,8 @@ public class ChatClient {
     private OutputStream serverOut;
     private BufferedReader bufferedIn;
 
-    private ArrayList<UserStatusListener> userStatusListeners = new ArrayList<>();
-    private ArrayList<MessageListener> messageListeners = new ArrayList<>();
+    private static ArrayList<UserStatusListener> userStatusListeners = new ArrayList<>();
+    private static ArrayList<MessageListener> messageListeners = new ArrayList<>();
 
 
     public ChatClient(String serverName, int serverPort) {
@@ -85,8 +85,8 @@ public class ChatClient {
         }
     }
 
-    public void logoff() throws IOException {
-        String cmd = "logoff\n";
+    public void logout() throws IOException {
+        String cmd = "logout\n";
         serverOut.write(cmd.getBytes());
     }
 
@@ -123,7 +123,6 @@ public class ChatClient {
 
     private void handleOnline(String[] tokens) {
         String Username = tokens[1];
-        System.out.println(userStatusListeners);
         for (UserStatusListener listener : userStatusListeners) {
             listener.online(Username);
         }
