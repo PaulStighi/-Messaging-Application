@@ -48,7 +48,7 @@ public class ServerWorker extends Thread {
                     handleSignUp(tokens);
                 }
                 else if(cmd.equalsIgnoreCase("login")) {
-                    handleLogin(outputStream, tokens);
+                    handleLogin(tokens);
                 }
                 else if(cmd.equalsIgnoreCase("msg")) {
                     handleMessage(tokens);
@@ -148,7 +148,7 @@ public class ServerWorker extends Thread {
         clientSocket.close();
     }
 
-    private void handleLogin(OutputStream outputStream, String[] tokens) throws IOException {
+    private void handleLogin(String[] tokens) throws IOException {
         if(tokens.length == 3) {
             String username = tokens[1];
             String password = tokens[2];

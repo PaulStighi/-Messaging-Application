@@ -28,3 +28,20 @@ jar {
         configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
     }
 }
+
+test {
+    useJUnitPlatform()
+}
+
+//jar {
+//    manifest {
+//        attributes(
+//                'Main-Class': 'Server.ServerMain'
+//        )
+//    }
+//
+//    archiveName = 'Server.jar'
+//    from {
+//        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+//    }
+//}
