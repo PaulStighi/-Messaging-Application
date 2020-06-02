@@ -14,13 +14,13 @@ public class MessagePane extends JPanel implements MessageListener {
     private DefaultListModel<String> listModel = new DefaultListModel<>();
     private JList<String> messageList = new JList<>(listModel);
     private JTextField inputField = new JTextField();
-
+   //constructor
     public MessagePane(ChatClient client, String username) {
         this.client = client;
         this.username = username;
 
         client.addMessageListener(this);
-
+// layout for the message
         setLayout(new BorderLayout());
         add(new JScrollPane(messageList), BorderLayout.CENTER);
         add(inputField, BorderLayout.SOUTH);
@@ -41,6 +41,8 @@ public class MessagePane extends JPanel implements MessageListener {
     }
 
     @Override
+    //displays the message and who sends the message
+    
     public void onMessage(String fromUsername, String msgBody) {
         if (username.equalsIgnoreCase(fromUsername)) {
             String line = fromUsername + ": " + msgBody;
