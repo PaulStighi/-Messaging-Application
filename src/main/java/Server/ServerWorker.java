@@ -170,11 +170,12 @@ public class ServerWorker extends Thread {
     }
 
     private void atConnection(String username, ArrayList<ServerWorker> workersList) throws IOException {
-        outputStream.write(("online " + username + "\n").getBytes());
+        outputStream.write(("ok login" + "\n").getBytes());
         this.connectedUser = username;
         for(ServerWorker sw : workersList) {
             if( (sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
                 sw.send("online " + connectedUser + "\n");
+                send("online " + sw.getConnectedUser() + "\n");
             }
         }
     }

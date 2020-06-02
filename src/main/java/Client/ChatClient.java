@@ -18,8 +18,8 @@ public class ChatClient {
     private OutputStream serverOut;
     private BufferedReader bufferedIn;
 
-    private static ArrayList<UserStatusListener> userStatusListeners = new ArrayList<>();
-    private static ArrayList<MessageListener> messageListeners = new ArrayList<>();
+    private ArrayList<UserStatusListener> userStatusListeners = new ArrayList<>();
+    private ArrayList<MessageListener> messageListeners = new ArrayList<>();
 
 
     public ChatClient(String serverName, int serverPort) {
@@ -27,26 +27,26 @@ public class ChatClient {
         this.serverPort = serverPort;
     }
 
-
     public void msg(String sendTo, String msgBody) throws IOException {
         String cmd = "msg " + sendTo + " " + msgBody + "\n";
         serverOut.write(cmd.getBytes());
     }
 
-    public boolean login(String Username, String Password) throws IOException {
-        String cmd = "login " + Username + " " + Password + "\n";
+    public boolean login(String login, String password) throws IOException {
+        String cmd = "login " + login + " " + password + "\n";
         serverOut.write(cmd.getBytes());
 
         String response = bufferedIn.readLine();
         System.out.println("Response Line:" + response);
 
-        if (response.equalsIgnoreCase("online " + Username)) {
+        if (response.equalsIgnoreCase("ok login")) {
             startMessageReader();
             return true;
         } else {
             return false;
         }
     }
+
 
     private void startMessageReader() {
         Thread t = new Thread() {
@@ -106,25 +106,25 @@ public class ChatClient {
     }
 
     private void handleMessage(String[] tokensMsg) {
-        String Username = tokensMsg[1];
+        String username = tokensMsg[1];
         String msgBody = tokensMsg[2];
 
-        for (MessageListener listener : messageListeners) {
-            listener.onMessage(Username, msgBody);
+        for(MessageListener listener : messageListeners) {
+            listener.onMessage(username, msgBody);
         }
     }
 
     private void handleOffline(String[] tokens) {
-        String Username = tokens[1];
-        for (UserStatusListener listener : userStatusListeners) {
-            listener.offline(Username);
+        String username = tokens[1];
+        for(UserStatusListener listener : userStatusListeners) {
+            listener.offline(username);
         }
     }
 
     private void handleOnline(String[] tokens) {
-        String Username = tokens[1];
-        for (UserStatusListener listener : userStatusListeners) {
-            listener.online(Username);
+        String username = tokens[1];
+        for(UserStatusListener listener : userStatusListeners) {
+            listener.online(username);
         }
     }
 

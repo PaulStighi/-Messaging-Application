@@ -1,2 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><data>
-<user><username>admin</username><password>HQmSt0J5v+SeWOviXr2JfGrkbeRKxiq07DsuIRnWCwY=</password></user></data>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<data>
+    <user>
+        <username>paul</username>
+        <password>0eKPQD3flLyLwgtu/zJmrEB7+QeSk1sDTIUivU7umKM=</password>
+        <salt>vRnIgxSK6qr6J89SOrdLnPh9jyx9Se</salt>
+    </user>
+</data>

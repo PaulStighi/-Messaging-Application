@@ -10,7 +10,7 @@ public class UserListPane extends JPanel implements UserStatusListener {
 
     private final ChatClient client;
     private JList<String> userListUI;
-    private static DefaultListModel<String> userListModel;
+    private DefaultListModel<String> userListModel;
 
     public UserListPane(ChatClient client) {
         this.client = client;

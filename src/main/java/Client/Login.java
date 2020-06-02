@@ -16,19 +16,10 @@ public class Login {
     private JFrame frame;
     public JTextField textField;
     public JTextField textField_1;
-    private JTextField textField_2;
 
     public String Username;
 
     public String Password;
-
-    public int ok = 0;
-
-    public int ok2 = 0;
-
-    public int k = 0;
-
-    public int k2 = 0;
 
     private final ChatClient client;
 
@@ -102,15 +93,14 @@ public class Login {
         this.Password = textField_1.getText();
 
         try {
-			UserListPane userListPane = new UserListPane(client);
-			JFrame frame = new JFrame("User List - " + Username);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setSize(400, 600);
-
-			frame.getContentPane().add(userListPane, BorderLayout.CENTER);
-			frame.setVisible(true);
-
             if (client.login(Username, Password)) {
+                UserListPane userListPane = new UserListPane(client);
+                JFrame frame = new JFrame("User List - " + Username);
+                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                frame.setSize(400, 600);
+
+                frame.getContentPane().add(userListPane, BorderLayout.CENTER);
+                frame.setVisible(true);
                 loginFrame.setVisible(false);
             } else {
                 JOptionPane.showMessageDialog(loginFrame, "Invalid Username/password.");
