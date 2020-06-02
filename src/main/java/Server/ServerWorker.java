@@ -119,14 +119,15 @@ public class ServerWorker extends Thread {
             if(sendTo.charAt(0) == '#') {
                 for (ServerWorker sw : workersList) {
                     if (groupSet.contains(sendTo)) {
-                        sw.send("msg " + connectedUser + " in " + sendTo + ": " + body + "\n");
+                        sw.send("msg " + connectedUser + " in " + sendTo + " " + body + "\n");
                     }
                 }
             }
             else {
                 for (ServerWorker sw : workersList) {
                     if (sendTo.equalsIgnoreCase(sw.getConnectedUser())) {
-                        sw.send("msg " + connectedUser + ": " + body + "\n");
+                        System.out.println("msg " + connectedUser + " " + body + "\n");
+                        sw.send("msg " + connectedUser + " " + body + "\n");
                     }
                 }
             }
@@ -137,13 +138,13 @@ public class ServerWorker extends Thread {
     }
 
     private void handleLogout() throws IOException {
+        server.removeWorker(this);
         ArrayList<ServerWorker> workersList = server.getWorkers();
         for(ServerWorker sw : workersList) {
             if((sw.getConnectedUser() != null) && !sw.getConnectedUser().equals(connectedUser)) {
                 sw.send("offline " + connectedUser + "\n");
             }
         }
-        server.removeWorker(this);
         clientSocket.close();
     }
 

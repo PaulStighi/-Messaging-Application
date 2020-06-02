@@ -62,6 +62,7 @@ public class ChatClient {
         try {
             String line;
             while ((line = bufferedIn.readLine()) != null) {
+                System.out.println(line);
                 String[] tokens = StringUtils.split(line);
                 if (tokens != null && tokens.length > 0) {
                     String cmd = tokens[0];

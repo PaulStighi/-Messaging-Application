@@ -41,9 +41,9 @@ public class MessagePane extends JPanel implements MessageListener {
     }
 
     @Override
-    public void onMessage(String fromLogin, String msgBody) {
-        if (username.equalsIgnoreCase(fromLogin)) {
-            String line = fromLogin + ": " + msgBody;
+    public void onMessage(String fromUsername, String msgBody) {
+        if (username.equalsIgnoreCase(fromUsername)) {
+            String line = fromUsername + ": " + msgBody;
             listModel.addElement(line);
         }
     }
